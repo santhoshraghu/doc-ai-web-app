@@ -13,7 +13,7 @@
     <div id="result"></div>
 
     <script>
-        const API_URL = 'https://documentai.googleapis.com/v1beta3/projects/visionapi-423122/locations/us/processors/837c77b71094c056:process';
+        const API_URL = 'https://documentai.googleapis.com/v1beta3/projects/visionapi-423122/locations/us/processors/308eb5cbcffab96b:process';
         const API_KEY = 'AIzaSyB08Nu2FNFKZw-mrhe_EEdBfXKB-0_Gz8g';
 
         async function processDocument() {
@@ -35,11 +35,10 @@
                 });
                 document.getElementById('result').innerText = JSON.stringify(response.data, null, 2);
             } catch (error) {
-                document.getElementById('result').innerText = 'Error: ' + error.message;
+                console.error('API Error:', error); // Log the detailed error for debugging
+                document.getElementById('result').innerText = 'Error: ' + (error.response ? error.response.data : error.message);
             }
         }
     </script>
 </body>
 </html>
-
-
