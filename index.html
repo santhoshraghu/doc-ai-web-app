@@ -8,29 +8,30 @@
 </head>
 <body>
     <h1>Google Document AI Integration</h1>
-    <button onclick="processInvoice()">Process Invoice</button>
-    <button onclick="processCustom()">Process Custom Document</button>
+    <input type="file" id="fileInput" />
+    <button onclick="processDocument()">Process Document</button>
     <div id="result"></div>
 
     <script>
         const API_URL = 'https://documentai.googleapis.com/v1beta3/projects/visionapi-423122/locations/us/processors/837c77b71094c056:process';
         const API_KEY = 'AIzaSyB08Nu2FNFKZw-mrhe_EEdBfXKB-0_Gz8g';
 
-        async function processInvoice() {
-            try {
-                const response = await axios.post(`${API_URL}?key=${API_KEY}`, {
-                    // Add your request payload here for invoice processing
-                });
-                document.getElementById('result').innerText = JSON.stringify(response.data, null, 2);
-            } catch (error) {
-                document.getElementById('result').innerText = 'Error: ' + error.message;
+        async function processDocument() {
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput.files.length === 0) {
+                document.getElementById('result').innerText = 'Please select a file.';
+                return;
             }
-        }
 
-        async function processCustom() {
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+
             try {
-                const response = await axios.post(`${API_URL}?key=${API_KEY}`, {
-                    // Add your request payload here for custom document processing
+                const response = await axios.post(`${API_URL}?key=${API_KEY}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
                 });
                 document.getElementById('result').innerText = JSON.stringify(response.data, null, 2);
             } catch (error) {
@@ -40,4 +41,5 @@
     </script>
 </body>
 </html>
+
 
